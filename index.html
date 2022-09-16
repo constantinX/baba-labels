@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+
+    <script src="./print.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav
+        class="bg-white shadow border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900"
+      >
+        <div
+          class="container flex flex-wrap justify-between items-center mx-auto"
+        >
+          <a href="https://flowbite.com/" class="flex items-center">
+            <img
+              src="https://flowbite.com/docs/images/logo.svg"
+              class="mr-3 h-6 sm:h-9"
+              alt="Flowbite Logo"
+            />
+            <span
+              class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
+              >Baba Label</span
+            >
+          </a>
+          <button
+            data-collapse-toggle="navbar-default"
+            type="button"
+            class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            aria-controls="navbar-default"
+            aria-expanded="false"
+          >
+            <span class="sr-only">Open main menu</span>
+            <svg
+              class="w-6 h-6"
+              aria-hidden="true"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </button>
+          <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+            <ul
+              class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
+            >
+              <li>
+                <a
+                  href="#"
+                  class="hidden py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                  aria-current="page"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hidden py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >About</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hidden py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >Services</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hidden py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >Pricing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hidden py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main class="container mx-auto w-full min-h-screen px-4 md:px-0 my-12">
+      <!-- TOOLBAR STARTS-->
+
+      <div class="inline-flex rounded-md shadow-sm mb-6">
+        <select
+          id="state_array_selector"
+          class="py-4 px-6 md:py-2 md:px-4 text-sm font-medium text-blue-700 bg-white rounded-l-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+        ></select>
+        <button
+          id="btn_removeState"
+          class="py-4 px-6 md:py-2 md:px-4 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+        >
+          -
+        </button>
+        <button
+          id="btn_addState"
+          class="py-4 px-6 md:py-2 md:px-4 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+        >
+          +
+        </button>
+        <button
+          id="btn_print"
+          class="py-4 px-6 md:py-2 md:px-4 text-sm font-medium text-gray-900 bg-white rounded-r-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+        >
+          Drucken
+        </button>
+      </div>
+      <div class="inline-flex rounded-md shadow-sm mb-6">
+        <button
+          aria-current="page"
+          id="btn_clear_storage"
+          class="py-4 px-6 md:py-2 md:px-4 text-sm font-medium text-red-700 bg-white rounded-l-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+        >
+          Clear Storage
+        </button>
+        <button
+          id="btn_save"
+          class="py-4 px-6 md:py-2 md:px-4 text-sm font-medium text-gray-900 bg-white rounded-r-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+        >
+          Speichern
+        </button>
+      </div>
+
+      <!-- TOOLBAR ENDS-->
+
+      <div class="w-full min-h-screen grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- VORDERGRUND BILD STARTS -->
+        <div class="w-full p-4 min-h-96 border rounded-xl relative">
+          <img
+            class="w-full md:w-1/2 border mx-auto aspect-[3/4] my-8 object-cover rounded-lg shadow"
+            id="foreground_image"
+            src="https://via.placeholder.com/350"
+          />
+
+          <div
+            class="flex justify-center items-center w-full md:w-1/2 max-h-40 mx-auto"
+          >
+            <label
+              for="file_foreground_input"
+              class="flex flex-col justify-center items-center w-full h-full bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            >
+              <div class="flex flex-col justify-center items-center pt-5 pb-6">
+                <svg
+                  aria-hidden="true"
+                  class="mb-3 w-10 h-10 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                  ></path>
+                </svg>
+                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  <span class="font-semibold">Click to upload</span> or drag and
+                  drop
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  SVG, PNG, JPG or GIF
+                </p>
+              </div>
+              <input
+                id="file_foreground_input"
+                type="file"
+                name="file"
+                class="hidden"
+              />
+            </label>
+          </div>
+        </div>
+        <!-- VORDERGRUND BILD ENDS -->
+
+        <!-- VORDERGRUND TEXT STARTS -->
+        <div class="w-full p-4 min-h-96 border rounded-xl">
+          <div>
+            <div class="grid gap-6 mb-6 md:grid-cols-1">
+              <div>
+                <label
+                  for="name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Seifenname</label
+                >
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="z.B. Mondseife"
+                  required=""
+                />
+              </div>
+              <div>
+                <label
+                  for="tagline"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Tagline (Optional)</label
+                >
+                <input
+                  type="text"
+                  id="tagline"
+                  name="tagline"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="z.B. Handgemacht"
+                  required=""
+                />
+              </div>
+
+              <div class="grid gap-6 mb-6 md:grid-cols-2">
+                <div>
+                  <label
+                    for="charge"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Charge</label
+                  >
+                  <input
+                    type="text"
+                    id="charge"
+                    name="charge"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Chargennummer"
+                    required=""
+                  />
+                </div>
+                <div>
+                  <label
+                    for="madeDate"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Gesiedet am</label
+                  >
+                  <input
+                    type="date"
+                    id="madeDate"
+                    name="madeDate"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                  />
+                </div>
+              </div>
+              <div class="mb-8">
+                <label
+                  for="backText"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+                  >Inhaltsstoffe</label
+                >
+                <textarea
+                  id="backText"
+                  name="backText"
+                  rows="4"
+                  class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Hier kommen die Inhaltsstoffe..."
+                ></textarea>
+              </div>
+              <hr class="mb-6" />
+              <div class="grid gap-6 mb-6 md:grid-cols-2">
+                <div>
+                  <label
+                    for="first_name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Vorname</label
+                  >
+                  <input
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Vorname"
+                    required=""
+                  />
+                </div>
+                <div>
+                  <label
+                    for="last_name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Nachname</label
+                  >
+                  <input
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Nachname"
+                    required=""
+                  />
+                </div>
+                <div>
+                  <label
+                    for="street"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Strasse & Hausnr.</label
+                  >
+                  <input
+                    type="text"
+                    id="street"
+                    name="street"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Strasse und Hausnummer"
+                    required=""
+                  />
+                </div>
+                <div>
+                  <label
+                    for="zipcity"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >PLZ & Stadt</label
+                  >
+                  <input
+                    type="text"
+                    id="zipcity"
+                    name="zipcity"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="PLZ und Stadt"
+                    required=""
+                  />
+                </div>
+              </div>
+              <div class="mb-6">
+                <label
+                  for="mobile"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Mobilnr.</label
+                >
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Telefonnummer"
+                  required=""
+                />
+              </div>
+
+              <div class="mb-6">
+                <label
+                  for="phone"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Festnetznr.</label
+                >
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Telefonnummer"
+                  required=""
+                />
+              </div>
+              <div class="mb-6">
+                <label
+                  for="email"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Email"
+                  value="bärbelhuber"
+                  required=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- VORDERGRUND TEXT ENDS -->
+      </div>
+    </main>
+    <footer>
+      <footer
+        class="p-4 bg-white rounded-lg shadow md:px-6 md:py-8 dark:bg-gray-900"
+      >
+        <div class="sm:flex sm:items-center sm:justify-between">
+          <a
+            href="https://flowbite.com/"
+            class="flex items-center mb-4 sm:mb-0"
+          >
+            <img
+              src="https://flowbite.com/docs/images/logo.svg"
+              class="mr-3 h-8"
+              alt="Flowbite Logo"
+            />
+            <span
+              class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+              >Baba Label</span
+            >
+          </a>
+          <ul
+            class="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400"
+          >
+            <li>
+              <a href="#" class="mr-4 hover:underline md:mr-6">About</a>
+            </li>
+            <li>
+              <a href="#" class="mr-4 hover:underline md:mr-6"
+                >Privacy Policy</a
+              >
+            </li>
+            <li>
+              <a href="#" class="mr-4 hover:underline md:mr-6">Licensing</a>
+            </li>
+            <li>
+              <a href="#" class="hover:underline">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <hr
+          class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"
+        />
+        <span
+          class="block text-sm text-gray-500 sm:text-center dark:text-gray-400"
+          >© 2022
+          <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>.
+          All Rights Reserved.
+        </span>
+      </footer>
+    </footer>
+  </body>
+
+  <script defer>
+    let in_name = document.getElementById("name");
+    let in_tagline = document.getElementById("tagline");
+    let in_charge = document.getElementById("charge");
+    let in_madeDate = document.getElementById("madeDate");
+    let in_backText = document.getElementById("backText");
+    let in_first_name = document.getElementById("first_name");
+    let in_last_name = document.getElementById("last_name");
+    let in_street = document.getElementById("street");
+    let in_zipcity = document.getElementById("zipcity");
+    let in_mobile = document.getElementById("mobile");
+    let in_phone = document.getElementById("phone");
+    let in_email = document.getElementById("email");
+    //----------
+    const state_array_selector = document.getElementById(
+      "state_array_selector"
+    );
+    const foreground_image = document.getElementById("foreground_image");
+    const btn_save = document.getElementById("btn_save");
+    const btn_print = document.getElementById("btn_print");
+    const btn_addState = document.getElementById("btn_addState");
+    const btn_removeState = document.getElementById("btn_removeState");
+    const btn_clear_storage = document.getElementById("btn_clear_storage");
+    // const vorderseite_save = document.getElementById("submit");
+    const vorderseite_upload = document.getElementById("file_foreground_input");
+    let img = document.getElementById("foreground_image");
+    //----------
+    let state_array = [];
+    //----------
+    let state = {
+      id: 0,
+      aspectRatio: 1.33,
+      cols: 4,
+      rows: 5,
+      enabledFormat: false,
+      printCutlines: true,
+      name: "Herrenseife",
+      tagline: "",
+      backText: "",
+      charge: "",
+      madeDate: "",
+      first_name: "",
+      last_name: "",
+      street: "",
+      zipcity: "",
+      mobile: "",
+      phone: "",
+      email: "",
+    };
+
+    function selectSavedStateById(id) {
+      if (id === "") return;
+      console.log("id is: ", id);
+      let state_exists = state_array.find((el) => {
+        return el.id == id;
+      });
+
+      if (state_exists) {
+        state = state_exists;
+        in_name.value = state.name;
+        in_tagline.value = state.tagline;
+        in_charge.value = state.charge;
+        in_madeDate.value = state.madeDate;
+        in_backText.value = state.backText;
+        in_first_name.value = state.first_name;
+        in_last_name.value = state.last_name;
+        in_street.value = state.street;
+        in_zipcity.value = state.zipcity;
+        in_mobile.value = state.mobile;
+        in_phone.value = state.phone;
+        in_email.value = state.email;
+
+        foreground_image.src = "https://via.placeholder.com/350"
+      } else {
+        alert("state doesnt exist");
+      }
+    }
+
+    function getSavedStateArray(e) {
+      let saved_state_array = localStorage.getItem("baba-label-state");
+      if (!saved_state_array) {
+        let array = JSON.stringify([state]);
+        localStorage.setItem("baba-label-state", array);
+        saved_state_array = array;
+      }
+      state_array = JSON.parse(saved_state_array);
+      //create dropdown menu items here
+      if (state_array_selector) {
+        addOptionsToSelect(state_array);
+      }
+      selectSavedStateById(state_array[0].id);
+      return state_array;
+    }
+
+    function addNewStateToArray() {
+      const ids = state_array.map((el) => el.id);
+      let id = Math.max(...ids) + 1;
+      let length = state_array.length;
+      let newState = { ...state, id: id, name: "Neue Seife " + length };
+      state_array = [...state_array, newState];
+
+      saveState();
+
+      state_array_selector.options[state_array_selector.options.length] =
+        new Option("Neue Seife " + length, id);
+
+      state_array_selector.value = id;
+      selectSavedStateById(id);
+
+      Toastify({
+        text: "Neue Seife hinzugefügt",
+        duration: 3000,
+        gravity: "center", // `top` or `bottom`
+        position: "center", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+      }).showToast();
+    }
+
+    function removeStateFromArray() {
+      if (state_array.length == 1) return;
+      let idToBeDeleted = state.id;
+      console.log("id to be deleted: ", idToBeDeleted);
+      state_array = state_array.filter((el) => el.id != idToBeDeleted); //[...state_array, state];
+      console.log(state_array);
+      state = state_array[0];
+      console.log(state.id);
+      saveState();
+
+      removeOptionsFromSelect();
+      addOptionsToSelect(state_array);
+
+      state_array_selector.value = state.id;
+      selectSavedStateById(state.id);
+
+      Toastify({
+        text: "Seife erfolgreich entfernt",
+        duration: 3000,
+        gravity: "center", // `top` or `bottom`
+        position: "center", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "bg-red-200",
+        },
+      }).showToast();
+    }
+
+    function setLocalStorage() {
+      localStorage.setItem("baba-label-state", JSON.stringify(state_array));
+    }
+
+    function clearLocalStorage() {
+      localStorage.clear();
+    }
+    //----
+
+    function clearImage() {
+
+    }
+
+    function saveState() {
+      console.log(state);
+      console.log(state_array);
+      setLocalStorage();
+    }
+
+    async function print() {
+      await onPrint({ ...state, img });
+    }
+
+    function updateState(e) {
+      state[e.target.name] = e.target.value;
+    }
+
+    function uploadImage() {
+      let file = this.files[0];
+      console.log(file)
+      if (!file.type.startsWith("image/")) return;
+      const reader = new FileReader();
+      reader.onload = (function (aImg) {
+        return function (e) {
+          aImg.src = e.target.result;
+        };
+      })(img);
+      reader.readAsDataURL(file);
+    }
+
+    function addOptionsToSelect(array) {
+      array.forEach((stateEl) => {
+        state_array_selector.options[state_array_selector.options.length] =
+          new Option(stateEl.name, stateEl.id);
+      });
+    }
+
+    function removeOptionsFromSelect() {
+      var i,
+        L = state_array_selector.options.length - 1;
+      for (i = L; i >= 0; i--) {
+        state_array_selector.remove(i);
+      }
+    }
+
+    function updateDropdown() {
+      removeOptionsFromSelect();
+      addNewStateToArray(state_array);
+    }
+
+    //------
+    window.addEventListener("load", getSavedStateArray, false);
+    //-----
+    btn_save.addEventListener("click", saveState, false);
+    btn_print.addEventListener("click", print, false);
+    btn_addState.addEventListener("click", addNewStateToArray, false);
+    btn_removeState.addEventListener("click", removeStateFromArray, false);
+
+    btn_clear_storage.addEventListener("click", clearLocalStorage, false);
+    state_array_selector.addEventListener(
+      "change",
+      (e) => selectSavedStateById(e.target.value),
+      false
+    );
+
+    vorderseite_upload.addEventListener("change", uploadImage, false);
+    //-----
+    in_name.addEventListener("change", updateState, false);
+    //in_name.addEventListener("blur", updateDropdown, false);
+    in_tagline.addEventListener("change", updateState, false);
+    in_charge.addEventListener("change", updateState, false);
+    in_madeDate.addEventListener("change", updateState, false);
+    in_backText.addEventListener("change", updateState, false);
+    in_first_name.addEventListener("change", updateState, false);
+    in_last_name.addEventListener("change", updateState, false);
+    in_street.addEventListener("change", updateState, false);
+    in_zipcity.addEventListener("change", updateState, false);
+    in_mobile.addEventListener("change", updateState, false);
+    in_phone.addEventListener("change", updateState, false);
+    in_email.addEventListener("change", updateState, false);
+  </script>
+</html>
