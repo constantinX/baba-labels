@@ -1,10 +1,9 @@
 const { jsPDF } = window.jspdf;
 
-function onPrint (state) {
+function onPrint(state) {
   return new Promise(async (resolve) => {
     // Default export is a4 paper, portrait, using millimeters for units
-    
-  
+
     const {
       aspectRatio,
       cols,
@@ -17,19 +16,17 @@ function onPrint (state) {
       charge,
       madeDate,
       first_name,
-      last_name, 
+      last_name,
       street,
       zipcity,
       mobile,
       phone,
       email,
       frontUrl,
-      img
+      img,
     } = state;
 
-
     //guard clauses
-
 
     const pagemarginX = 10;
     const pagemarginY = 10;
@@ -137,13 +134,13 @@ function onPrint (state) {
     for (let a = 0; a < numRows; a++) {
       for (let b = 0; b < numCols; b++) {
         let splittext = doc.splitTextToSize(backText, imageWidth - 12);
-        
+
         doc.text(
           splittext || "Missing",
           pagemarginX + gridGap + b * (imageWidth + gridGap) + 6,
           pagemarginY + gridGap + a * (imageHeight + gridGap) + 8
         );
-      
+
         doc.text(
           `Chargen-Nr: ${charge}` || "Missing",
           pagemarginX + gridGap + b * (imageWidth + gridGap) + 6,
@@ -195,4 +192,4 @@ function onPrint (state) {
 
     resolve("resolved");
   });
-};
+}
