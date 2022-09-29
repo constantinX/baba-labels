@@ -670,7 +670,7 @@
     }
 
     async function print() {
-      await onPrint({ ...state, img: foreground_image });
+      await onPrint({ ...state, img: canvas.toDataURL("image/png") });
       //img: canvas.toDataURL("image/png")
     }
 
