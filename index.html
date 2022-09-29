@@ -160,7 +160,7 @@
             id="foreground_canvas"
           ></canvas>
           <img
-            class=" scale-125 w-full md:w-1/2 border mx-auto aspect-[3/4] my-8 object-cover rounded-lg shadow"
+            class="hidden scale-125 w-full md:w-1/2 border mx-auto aspect-[3/4] my-8 object-cover rounded-lg shadow"
             id="foreground_image"
             src="https://github.com/constantinX/baba-labels/blob/main/hand-logo.png?raw=true"
           />
@@ -547,7 +547,7 @@
     function draw() {
       // Create gradient
       var grd = ctx.createLinearGradient(0, 0, 400, 0);
-      grd.addColorStop(0, "grey");
+      grd.addColorStop(0, "white");
       grd.addColorStop(1, "white");
       // Fill with gradient
       ctx.fillStyle = grd;
@@ -557,7 +557,7 @@
       //ctx.font = "bold 60px serif";
       ctx.fillStyle = "black";
       ctx.textAlign = "center";
-      ctx.fillText(state.name, canvas.width / 2, canvas.height / 5);
+      ctx.fillText(state.name, canvas.width / 2, canvas.height / 6);
 
       ctx.font = "30px Pangolin";
       ctx.fillStyle = "black";
@@ -565,7 +565,7 @@
       ctx.fillText(
         state.tagline,
         canvas.width / 2,
-        canvas.height - canvas.height / 6
+        canvas.height - canvas.height / 8
       );
 
       base_image = new Image();
