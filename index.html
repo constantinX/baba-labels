@@ -9,7 +9,7 @@
       type="text/css"
       href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
     />
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
     <script
@@ -153,14 +153,20 @@
       <div class="w-full min-h-screen grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- VORDERGRUND BILD STARTS -->
         <div class="w-full p-4 min-h-96 border rounded-xl relative">
+          <canvas
+            class="border mx-auto my-8 object-cover rounded-lg shadow"
+            width="600"
+            height="800"
+            id="foreground_canvas"
+          ></canvas>
           <img
-            class="w-full md:w-1/2 border mx-auto aspect-[3/4] my-8 object-cover rounded-lg shadow"
+            class="hidden scale-125 w-full md:w-1/2 border mx-auto aspect-[3/4] my-8 object-cover rounded-lg shadow"
             id="foreground_image"
-            src="https://via.placeholder.com/350"
+            src="./hand-logo.png"
           />
 
           <div
-            class="flex justify-center items-center w-full md:w-1/2 max-h-40 mx-auto"
+            class="hidden justify-center items-center w-full md:w-1/2 max-h-40 mx-auto"
           >
             <label
               for="file_foreground_input"
@@ -449,6 +455,14 @@
   </body>
 
   <script defer>
+    let titleFont = new FontFace("Pangolin", "url(ArefRuqaaInk-Regular.ttf)");
+
+    /**
+     *
+     *
+     *
+     *
+     */
     let in_name = document.getElementById("name");
     let in_tagline = document.getElementById("tagline");
     let in_charge = document.getElementById("charge");
@@ -461,6 +475,9 @@
     let in_mobile = document.getElementById("mobile");
     let in_phone = document.getElementById("phone");
     let in_email = document.getElementById("email");
+    let canvas = document.getElementById("foreground_canvas");
+    let ctx = canvas.getContext("2d");
+
     //----------
     const state_array_selector = document.getElementById(
       "state_array_selector"
@@ -520,10 +537,48 @@
         in_phone.value = state.phone;
         in_email.value = state.email;
 
-        foreground_image.src = "https://via.placeholder.com/350"
+        draw();
+        foreground_image.src = "./hand-logo.png";
       } else {
         alert("state doesnt exist");
       }
+    }
+
+    function draw() {
+      // Create gradient
+      var grd = ctx.createLinearGradient(0, 0, 400, 0);
+      grd.addColorStop(0, "grey");
+      grd.addColorStop(1, "white");
+      // Fill with gradient
+      ctx.fillStyle = grd;
+      ctx.fillRect(0, 0, 600, 800);
+
+      ctx.font = "90px Pangolin";
+      //ctx.font = "bold 60px serif";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.fillText(state.name, canvas.width / 2, canvas.height / 5);
+
+      ctx.font = "30px Pangolin";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        state.tagline,
+        canvas.width / 2,
+        canvas.height - canvas.height / 5
+      );
+
+      base_image = new Image();
+      base_image.src = "https://drive.google.com/file/d/1sR56XlDvbSfYUezniiukqEeOU_EV5UGx/view?usp=sharing";
+      base_image.onload = function () {
+        ctx.drawImage(base_image, 0, 0);
+      };
+
+      /*ctx.drawImage(
+        foreground_image,
+        canvas.width / 2 - foreground_image.width / 2,
+        canvas.height / 2 - foreground_image.height / 2
+      );*/
     }
 
     function getSavedStateArray(e) {
@@ -606,9 +661,7 @@
     }
     //----
 
-    function clearImage() {
-
-    }
+    function clearImage() {}
 
     function saveState() {
       console.log(state);
@@ -617,7 +670,7 @@
     }
 
     async function print() {
-      await onPrint({ ...state, img });
+      await onPrint({ ...state, img: canvas.toDataURL("image/png") });
     }
 
     function updateState(e) {
@@ -626,7 +679,7 @@
 
     function uploadImage() {
       let file = this.files[0];
-      console.log(file)
+      console.log(file);
       if (!file.type.startsWith("image/")) return;
       const reader = new FileReader();
       reader.onload = (function (aImg) {
@@ -658,7 +711,21 @@
     }
 
     //------
-    window.addEventListener("load", getSavedStateArray, false);
+    window.addEventListener(
+      "load",
+      async () => {
+        getSavedStateArray();
+        draw();
+      },
+      false
+    );
+
+    titleFont.load().then((font) => {
+      document.fonts.add(font);
+      console.log(font);
+      draw();
+    });
+
     //-----
     btn_save.addEventListener("click", saveState, false);
     btn_print.addEventListener("click", print, false);
@@ -671,7 +738,6 @@
       (e) => selectSavedStateById(e.target.value),
       false
     );
-
     vorderseite_upload.addEventListener("change", uploadImage, false);
     //-----
     in_name.addEventListener("change", updateState, false);
