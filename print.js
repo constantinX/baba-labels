@@ -23,7 +23,7 @@ function onPrint(state) {
       phone,
       email,
       frontUrl,
-      //img,
+      img,
     } = state;
 
     //guard clauses
@@ -60,9 +60,10 @@ function onPrint(state) {
      * **/
     doc.text(`${name}.pdf`, 5, 5);
 
-    let img = new Image();
+    /*let img = new Image();
     img.crossOrigin = "anonymous";
     img.src = frontUrl;
+*/
 
     //Draw images
     for (let a = 0; a < numRows; a++) {

@@ -160,9 +160,9 @@
             id="foreground_canvas"
           ></canvas>
           <img
-            class="hidden scale-125 w-full md:w-1/2 border mx-auto aspect-[3/4] my-8 object-cover rounded-lg shadow"
+            class=" scale-125 w-full md:w-1/2 border mx-auto aspect-[3/4] my-8 object-cover rounded-lg shadow"
             id="foreground_image"
-            src="./hand-logo.png"
+            src="https://github.com/constantinX/baba-labels/blob/main/hand-logo.png?raw=true"
           />
 
           <div
@@ -456,7 +456,7 @@
 
   <script defer>
     let titleFont = new FontFace("Pangolin", "url(ArefRuqaaInk-Regular.ttf)");
-
+    let imageSourceFront =  "./hand-logo.png" //"https://github.com/constantinX/baba-labels/blob/main/hand-logo.png?raw=true"
     /**
      *
      *
@@ -538,7 +538,7 @@
         in_email.value = state.email;
 
         draw();
-        foreground_image.src = "./hand-logo.png";
+        foreground_image.src = imageSourceFront;
       } else {
         alert("state doesnt exist");
       }
@@ -565,13 +565,13 @@
       ctx.fillText(
         state.tagline,
         canvas.width / 2,
-        canvas.height - canvas.height / 5
+        canvas.height - canvas.height / 6
       );
 
       base_image = new Image();
-      base_image.src = "https://drive.google.com/file/d/1sR56XlDvbSfYUezniiukqEeOU_EV5UGx/view?usp=sharing";
+      base_image.src = imageSourceFront;
       base_image.onload = function () {
-        ctx.drawImage(base_image, 0, 0);
+        ctx.drawImage(base_image, canvas.width / 2 - 250, canvas.height/5);
       };
 
       /*ctx.drawImage(
@@ -670,7 +670,8 @@
     }
 
     async function print() {
-      await onPrint({ ...state, img: canvas.toDataURL("image/png") });
+      await onPrint({ ...state, img: foreground_image });
+      //img: canvas.toDataURL("image/png")
     }
 
     function updateState(e) {
